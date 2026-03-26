@@ -24,23 +24,16 @@ body{
     width:100%;
     height:100vh;
     z-index:-2;
-
     background: radial-gradient(circle at 20% 30%, #ff4d6d22, transparent),
                 radial-gradient(circle at 80% 70%, #ffffff11, transparent),
                 #000;
-
-    animation:bgMove 10s infinite alternate;
 }
-@keyframes bgMove{
-    100%{transform:scale(1.1);}
-}
-
 .bgAnimation span{
     position:absolute;
     color:rgba(255,255,255,0.2);
-    animation:floatParticles 12s linear infinite;
+    animation:float 10s linear infinite;
 }
-@keyframes floatParticles{
+@keyframes float{
     0%{transform:translateY(100vh);}
     100%{transform:translateY(-10vh);}
 }
@@ -55,9 +48,9 @@ body{
 }
 
 .giftWrapper{
-    animation:softBounce 3s infinite;
+    animation:bounce 3s infinite;
 }
-@keyframes softBounce{
+@keyframes bounce{
     50%{transform:translateY(-20px);}
 }
 
@@ -82,29 +75,26 @@ body{
     transform:translateY(-140px) rotate(-25deg);
 }
 
-/* shine */
 .shine{
     position:absolute;
     width:100%;
     height:100%;
     background:linear-gradient(120deg,transparent,rgba(255,255,255,0.7),transparent);
-    animation:shineMove 2.5s infinite;
+    animation:shine 2.5s infinite;
 }
-@keyframes shineMove{
+@keyframes shine{
     100%{transform:translateX(100%);}
 }
 
 .openText{
     margin-top:25px;
     font-family:'Great Vibes';
-    font-size:38px;
+    font-size:36px;
     color:#ff4d6d;
 }
-.subText{
-    font-size:14px;
-}
+.subText{font-size:14px;opacity:0.8;}
 
-/* 🎬 SLIDES */
+/* 📸 SLIDES */
 .slide{
     position:absolute;
     width:100%;
@@ -121,30 +111,34 @@ body{
     transform:scale(1);
 }
 
-/* BLUR BG */
+/* BLUR BACKGROUND */
 .slide::before{
     content:"";
     position:absolute;
     width:100%;
     height:100%;
     background:inherit;
-    filter:blur(40px) brightness(0.4);
+    filter:blur(30px) brightness(0.4);
     transform:scale(1.2);
     z-index:1;
 }
 
-/* IMAGE */
+/* 🔥 3:4 IMAGE */
 .slide img{
-    width:80vw;
-    aspect-ratio:16/9;
+    width:75vw;
+    aspect-ratio:3/4;
     object-fit:cover;
-    border-radius:16px;
+    border-radius:18px;
     z-index:2;
 
-    animation:kenburns 6s infinite alternate;
+    animation:zoom 5s ease-in-out infinite alternate;
+
+    box-shadow:
+        0 0 30px rgba(255,77,109,0.5),
+        0 0 60px rgba(0,0,0,0.7);
 }
-@keyframes kenburns{
-    100%{transform:scale(1.15);}
+@keyframes zoom{
+    100%{transform:scale(1.08);}
 }
 
 /* TEXT */
@@ -192,9 +186,9 @@ body{
 .burst{
     position:absolute;
     font-size:20px;
-    animation:burstAnim 1s forwards;
+    animation:burst 1s forwards;
 }
-@keyframes burstAnim{
+@keyframes burst{
     to{transform:translate(var(--x),var(--y));opacity:0;}
 }
 </style>
@@ -237,19 +231,14 @@ body{
 
 <script>
 
-// BACKGROUND PARTICLES
-function createBG(){
-    const bg=document.querySelector(".bgAnimation");
-    setInterval(()=>{
-        let el=document.createElement("span");
-        el.innerHTML=["✨","💫","❤","💖"][Math.floor(Math.random()*4)];
-        el.style.left=Math.random()*100+"vw";
-        el.style.fontSize=(Math.random()*15+10)+"px";
-        bg.appendChild(el);
-        setTimeout(()=>el.remove(),12000);
-    },300);
-}
-createBG();
+// BG PARTICLES
+setInterval(()=>{
+    let el=document.createElement("span");
+    el.innerHTML=["✨","💖","💫"][Math.floor(Math.random()*3)];
+    el.style.left=Math.random()*100+"vw";
+    document.querySelector(".bgAnimation").appendChild(el);
+    setTimeout(()=>el.remove(),10000);
+},300);
 
 // TIMELINE
 const timeline=[
@@ -279,7 +268,7 @@ const slides=document.querySelectorAll(".slide");
 
 // HEART BURST
 function heartBurst(){
-    for(let i=0;i<25;i++){
+    for(let i=0;i<20;i++){
         let h=document.createElement("div");
         h.className="burst";
         h.innerHTML="💖";
@@ -323,7 +312,7 @@ function startTimeline(){
 // FIREWORK
 function startFireworks(){
     setInterval(()=>{
-        for(let i=0;i<15;i++){
+        for(let i=0;i<12;i++){
             let f=document.createElement("div");
             f.className="fire";
             f.style.left=Math.random()*100+"vw";
