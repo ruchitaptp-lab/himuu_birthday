@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- FONTS -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<title>For Himuu ❤️</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    background:#0a0a0a;
+    overflow:hidden;
+    font-family:'Poppins',sans-serif;
+    color:white;
+}
+
+/* 🌙 INTRO BACKGROUND */
+#giftScreen{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    background: radial-gradient(circle, #1a1a1a, #000);
+    overflow:hidden;
+}
+
+/* 🌸 BACKGROUND EFFECT */
+.bgEffects::before{
+    content:"🌸 💖 🌷 💕 🌺 💓";
+    position:absolute;
+    width:100%;
+    height:100%;
+    font-size:22px;
+    opacity:0.15;
+    animation:floatBg 12s linear infinite;
+}
+@keyframes floatBg{
+    0%{transform:translateY(100%);}
+    100%{transform:translateY(-100%);}
+}
+
+/* 🎁 GIFT */
+.giftWrapper{
+    animation:softBounce 3s infinite;
+}
+@keyframes softBounce{
+    50%{transform:translateY(-20px);}
+}
+
+.gift{
+    width:150px;height:150px;
+    background:linear-gradient(145deg,#ff4d6d,#ff1e56);
+    border-radius:18px;
+    position:relative;
+    cursor:pointer;
+    box-shadow:0 0 50px rgba(255,77,109,0.8);
+}
+
+.lid{
+    position:absolute;
+    width:150px;height:40px;
+    background:#ff1e56;
+    top:-40px;
+    border-radius:15px 15px 0 0;
+    transition:1s;
+}
+.open .lid{
+    transform:translateY(-140px) rotate(-25deg);
+}
+
+/* ✨ SHINE */
+.shine{
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:linear-gradient(120deg,transparent,rgba(255,255,255,0.7),transparent);
+    animation:shineMove 2.5s infinite;
+}
+@keyframes shineMove{
+    100%{transform:translateX(100%);}
+}
+
+/* 💖 TEXT */
+.openText{
+    margin-top:25px;
+    font-family:'Great Vibes',cursive;
+    font-size:38px;
+    color:#ff4d6d;
+    text-shadow:0 0 20px #ff4d6d;
+}
+.subText{
+    font-size:14px;
+    opacity:0.8;
+}
+
+/* 📸 SLIDES */
+.slide{
+    position:absolute;
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    transform:scale(1.05);
+    transition:all 0.8s ease;
+}
+.active{
+    opacity:1;
+    transform:scale(1);
+}
+
+.slide img{
+    width:75vw;
+    aspect-ratio:3/4;
+    object-fit:cover;
+    border-radius:20px;
+    box-shadow:0 0 40px rgba(255,77,109,0.6);
+}
+
+/* 💖 TEXT OVERLAY */
+.text{
+    position:absolute;
+    bottom:10%;
+    width:100%;
+    text-align:center;
+    font-family:'Great Vibes',cursive;
+    font-size:34px;
+    text-shadow:0 0 20px #ff4d6d;
+}
+
+/* 💌 FINAL */
+#final{
+    display:none;
+    height:100vh;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+}
+#final h1{
+    font-family:'Great Vibes';
+    font-size:42px;
+    color:#ff4d6d;
+}
+#final p{
+    font-size:20px;
+    line-height:1.8;
+}
+
+/* 🎆 FIREWORK */
+.fire{
+    position:absolute;
+    width:5px;height:5px;
+    background:#ff4d6d;
+    border-radius:50%;
+    animation:explode 1s forwards;
+}
+@keyframes explode{
+    to{transform:translate(var(--x),var(--y));opacity:0;}
+}
+
+/* 💥 HEART BURST */
+.burst{
+    position:absolute;
+    font-size:20px;
+    animation:burstAnim 1s forwards;
+}
+@keyframes burstAnim{
+    to{transform:translate(var(--x),var(--y));opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎁 INTRO -->
+<div id="giftScreen">
+    <div class="bgEffects"></div>
+
+    <div class="giftWrapper">
+        <div class="gift" onclick="openGift()" id="gift">
+            <div class="lid"></div>
+            <div class="shine"></div>
+        </div>
+    </div>
+
+    <div class="openText">Open this ❤️</div>
+    <div class="subText">I made something special for you 💖</div>
+</div>
+
+<!-- 🎵 MUSIC -->
+<audio id="music">
+  <source src="music.mp3" type="audio/mp3">
+</audio>
+
+<!-- 📸 SLIDES -->
+<div id="slides"></div>
+
+<!-- 💌 FINAL -->
+<div id="final">
+    <h1>Forever ❤️</h1>
+    <p>
+        No matter what happens, I will always stand beside you.  
+        You are my forever, my happiness, my everything.  
+        <br><br>
+        ✨ I am always yours ❤️
+    </p>
+</div>
+
+<script>
+
+// TIMELINE
+const timeline = [
+{time:0,img:"photo1.jpg",text:"Happy Birthday Himuu ❤️💋"},
+{time:2500,img:"photo2.jpg",text:"You are my happiness 💖"},
+{time:5000,img:"photo3.jpg",text:"My favorite person 😊"},
+{time:7500,img:"photo4.jpg",text:"Forever with you 💕"},
+{time:10000,img:"photo5.jpg",text:"My world 🌍"},
+{time:12500,img:"photo6.jpg",text:"My peace ✨"},
+{time:15000,img:"photo7.jpg",text:"My love 💘"},
+{time:17500,img:"photo8.jpg",text:"Together 💑"},
+{time:20000,img:"photo9.jpg",text:"Always ❤️"},
+{time:22500,img:"photo10.jpg",text:"You complete me 💖"},
+{time:25000,img:"photo11.jpg",text:"My everything ❤️"}
+];
+
+const container=document.getElementById("slides");
+
+// CREATE SLIDES
+timeline.forEach(item=>{
+    let div=document.createElement("div");
+    div.className="slide";
+    div.innerHTML=`<img src="${item.img}"><div class="text">${item.text}</div>`;
+    container.appendChild(div);
+});
+
+const slides=document.querySelectorAll(".slide");
+
+// 💥 HEART BURST
+function heartBurst(){
+    for(let i=0;i<25;i++){
+        let h=document.createElement("div");
+        h.className="burst";
+        h.innerHTML="💖";
+
+        h.style.left="50%";
+        h.style.top="50%";
+        h.style.setProperty('--x',(Math.random()*300-150)+"px");
+        h.style.setProperty('--y',(Math.random()*300-150)+"px");
+
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),1000);
+    }
+}
+
+// 🎁 OPEN
+function openGift(){
+    document.getElementById("gift").classList.add("open");
+    heartBurst();
+
+    setTimeout(()=>{
+        giftScreen.style.display="none";
+        music.play();
+        startTimeline();
+    },1200);
+}
+
+// 🎬 TIMELINE
+function startTimeline(){
+    timeline.forEach((item,index)=>{
+        setTimeout(()=>{
+            slides.forEach(s=>s.classList.remove("active"));
+            slides[index].classList.add("active");
+        },item.time);
+    });
+
+    setTimeout(()=>{
+        slides.forEach(s=>s.style.display="none");
+        final.style.display="flex";
+        startFireworks();
+    },30000);
+}
+
+// 🎆 FIREWORKS
+function startFireworks(){
+    setInterval(()=>{
+        for(let i=0;i<15;i++){
+            let f=document.createElement("div");
+            f.className="fire";
+            f.style.left=Math.random()*100+"vw";
+            f.style.top=Math.random()*50+"vh";
+            f.style.setProperty('--x',(Math.random()*200-100)+"px");
+            f.style.setProperty('--y',(Math.random()*200-100)+"px");
+            document.body.appendChild(f);
+            setTimeout(()=>f.remove(),1000);
+        }
+    },800);
+}
+
+</script>
+
+</body>
+</html>
