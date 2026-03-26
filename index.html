@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- FONTS -->
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <title>For Himuu ❤️</title>
@@ -13,39 +12,48 @@
 *{margin:0;padding:0;box-sizing:border-box;}
 
 body{
-    background:#0a0a0a;
+    background:#000;
     overflow:hidden;
     font-family:'Poppins',sans-serif;
     color:white;
 }
 
-/* 🌙 INTRO BACKGROUND */
+/* 🌌 BACKGROUND */
+.bgAnimation{
+    position:fixed;
+    width:100%;
+    height:100vh;
+    z-index:-2;
+
+    background: radial-gradient(circle at 20% 30%, #ff4d6d22, transparent),
+                radial-gradient(circle at 80% 70%, #ffffff11, transparent),
+                #000;
+
+    animation:bgMove 10s infinite alternate;
+}
+@keyframes bgMove{
+    100%{transform:scale(1.1);}
+}
+
+.bgAnimation span{
+    position:absolute;
+    color:rgba(255,255,255,0.2);
+    animation:floatParticles 12s linear infinite;
+}
+@keyframes floatParticles{
+    0%{transform:translateY(100vh);}
+    100%{transform:translateY(-10vh);}
+}
+
+/* 🎁 INTRO */
 #giftScreen{
     height:100vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    background: radial-gradient(circle, #1a1a1a, #000);
-    overflow:hidden;
 }
 
-/* 🌸 BACKGROUND EFFECT */
-.bgEffects::before{
-    content:"🌸 💖 🌷 💕 🌺 💓";
-    position:absolute;
-    width:100%;
-    height:100%;
-    font-size:22px;
-    opacity:0.15;
-    animation:floatBg 12s linear infinite;
-}
-@keyframes floatBg{
-    0%{transform:translateY(100%);}
-    100%{transform:translateY(-100%);}
-}
-
-/* 🎁 GIFT */
 .giftWrapper{
     animation:softBounce 3s infinite;
 }
@@ -74,7 +82,7 @@ body{
     transform:translateY(-140px) rotate(-25deg);
 }
 
-/* ✨ SHINE */
+/* shine */
 .shine{
     position:absolute;
     width:100%;
@@ -86,20 +94,17 @@ body{
     100%{transform:translateX(100%);}
 }
 
-/* 💖 TEXT */
 .openText{
     margin-top:25px;
-    font-family:'Great Vibes',cursive;
+    font-family:'Great Vibes';
     font-size:38px;
     color:#ff4d6d;
-    text-shadow:0 0 20px #ff4d6d;
 }
 .subText{
     font-size:14px;
-    opacity:0.8;
 }
 
-/* 📸 SLIDES */
+/* 🎬 SLIDES */
 .slide{
     position:absolute;
     width:100%;
@@ -109,28 +114,46 @@ body{
     align-items:center;
     opacity:0;
     transform:scale(1.05);
-    transition:all 0.8s ease;
+    transition:1s;
 }
 .active{
     opacity:1;
     transform:scale(1);
 }
 
-.slide img{
-    width:75vw;
-    aspect-ratio:3/4;
-    object-fit:cover;
-    border-radius:20px;
-    box-shadow:0 0 40px rgba(255,77,109,0.6);
+/* BLUR BG */
+.slide::before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:inherit;
+    filter:blur(40px) brightness(0.4);
+    transform:scale(1.2);
+    z-index:1;
 }
 
-/* 💖 TEXT OVERLAY */
+/* IMAGE */
+.slide img{
+    width:80vw;
+    aspect-ratio:16/9;
+    object-fit:cover;
+    border-radius:16px;
+    z-index:2;
+
+    animation:kenburns 6s infinite alternate;
+}
+@keyframes kenburns{
+    100%{transform:scale(1.15);}
+}
+
+/* TEXT */
 .text{
     position:absolute;
     bottom:10%;
     width:100%;
     text-align:center;
-    font-family:'Great Vibes',cursive;
+    font-family:'Great Vibes';
     font-size:34px;
     text-shadow:0 0 20px #ff4d6d;
 }
@@ -142,7 +165,6 @@ body{
     justify-content:center;
     align-items:center;
     flex-direction:column;
-    text-align:center;
 }
 #final h1{
     font-family:'Great Vibes';
@@ -151,7 +173,7 @@ body{
 }
 #final p{
     font-size:20px;
-    line-height:1.8;
+    text-align:center;
 }
 
 /* 🎆 FIREWORK */
@@ -180,17 +202,16 @@ body{
 
 <body>
 
+<div class="bgAnimation"></div>
+
 <!-- 🎁 INTRO -->
 <div id="giftScreen">
-    <div class="bgEffects"></div>
-
     <div class="giftWrapper">
         <div class="gift" onclick="openGift()" id="gift">
             <div class="lid"></div>
             <div class="shine"></div>
         </div>
     </div>
-
     <div class="openText">Open this ❤️</div>
     <div class="subText">I made something special for you 💖</div>
 </div>
@@ -216,8 +237,22 @@ body{
 
 <script>
 
+// BACKGROUND PARTICLES
+function createBG(){
+    const bg=document.querySelector(".bgAnimation");
+    setInterval(()=>{
+        let el=document.createElement("span");
+        el.innerHTML=["✨","💫","❤","💖"][Math.floor(Math.random()*4)];
+        el.style.left=Math.random()*100+"vw";
+        el.style.fontSize=(Math.random()*15+10)+"px";
+        bg.appendChild(el);
+        setTimeout(()=>el.remove(),12000);
+    },300);
+}
+createBG();
+
 // TIMELINE
-const timeline = [
+const timeline=[
 {time:0,img:"photo1.jpg",text:"Happy Birthday Himuu ❤️💋"},
 {time:2500,img:"photo2.jpg",text:"You are my happiness 💖"},
 {time:5000,img:"photo3.jpg",text:"My favorite person 😊"},
@@ -233,7 +268,6 @@ const timeline = [
 
 const container=document.getElementById("slides");
 
-// CREATE SLIDES
 timeline.forEach(item=>{
     let div=document.createElement("div");
     div.className="slide";
@@ -243,24 +277,22 @@ timeline.forEach(item=>{
 
 const slides=document.querySelectorAll(".slide");
 
-// 💥 HEART BURST
+// HEART BURST
 function heartBurst(){
     for(let i=0;i<25;i++){
         let h=document.createElement("div");
         h.className="burst";
         h.innerHTML="💖";
-
         h.style.left="50%";
         h.style.top="50%";
         h.style.setProperty('--x',(Math.random()*300-150)+"px");
         h.style.setProperty('--y',(Math.random()*300-150)+"px");
-
         document.body.appendChild(h);
         setTimeout(()=>h.remove(),1000);
     }
 }
 
-// 🎁 OPEN
+// OPEN
 function openGift(){
     document.getElementById("gift").classList.add("open");
     heartBurst();
@@ -272,7 +304,7 @@ function openGift(){
     },1200);
 }
 
-// 🎬 TIMELINE
+// TIMELINE
 function startTimeline(){
     timeline.forEach((item,index)=>{
         setTimeout(()=>{
@@ -288,7 +320,7 @@ function startTimeline(){
     },30000);
 }
 
-// 🎆 FIREWORKS
+// FIREWORK
 function startFireworks(){
     setInterval(()=>{
         for(let i=0;i<15;i++){
